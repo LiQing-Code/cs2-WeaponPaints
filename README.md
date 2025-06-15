@@ -1,5 +1,11 @@
 # CS2 Weapon Paints
 
+> **Notice:**  
+> This repository is a forked and modified version of the original [cs2-WeaponPaints](https://github.com/Nereziel/cs2-WeaponPaints).  
+> Some features, commands, or documentation may differ from the upstream project.  
+> Please refer to this README for details about the changes and usage in this version.
+> Added or updated command support for `!name`, `!seed`, and `!wear`.
+
 ## Description
 Unfinished, unoptimized and not fully functional ugly demo weapon paints plugin for **[CSSharp](https://docs.cssharp.dev/docs/guides/getting-started.html)**. 
 
@@ -19,6 +25,11 @@ Unfinished, unoptimized and not fully functional ugly demo weapon paints plugin 
 - Added command **`!agents`** to show menu with agents
 - Added command **`!pins`** to show menu with pins
 - Added command **`!music`** to show menu with music
+- Added command **`!skins`** to show menu with skins
+- Added command **`!st`** to modify StatTrak setting of current weapon
+- Added command **`!name [name]`** to change the name of current weapon
+- Added command **`!seed [seed]`** to change the pattern seed of current weapon
+- Added command **`!wear [wear]`** to change the wear of current weapon
 - Translations support, submit a PR if you want to share your translation
 
 ## ⚙️ Requirements

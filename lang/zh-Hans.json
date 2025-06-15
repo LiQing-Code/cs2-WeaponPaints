@@ -7,6 +7,11 @@
 	"wp_info_agent": "输入 {lime}!agents{default} 打开代理菜单",
 	"wp_info_music": "输入 {lime}!music{default} 打开音乐菜单",
 	"wp_info_pin": "输入 {lime}!pins{default} 来打开固定项菜单",
+	"wp_info_skins": "输入 {lime}!skins{default} 来打皮肤菜单",
+	"wp_info_st": "输入 {lime}!st{default} 修改当前武器StatTrak设置",
+	"wp_info_name": "输入 {lime}!name [名称]{default} 修改当前武器名称",
+	"wp_info_seed": "输入 {lime}!seed [模板号]{default} 修改当前武器模板",
+	"wp_info_wear": "输入 {lime}!wear [磨损]{default} 修改当前武器磨损",
 	"wp_command_cooldown": "{lightred}您现在无法刷新武器涂装",
 	"wp_command_refresh_done": "{lime}正在刷新武器涂装",
 	"wp_knife_menu_select": "您选择了 {lime}{0}{default} 作为您的刀具",
@@ -25,6 +30,9 @@
 	"wp_skin_menu_select": "您选择了 {lime}{0}{default} 作为您的皮肤",
 
 	"wp_stattrak_action": "您已成功更改 StatTrak 设置",
+	"wp_nametag_action": "您已成功更改名称标签",
+	"wp_seed_action": "您已成功更改模板",
+	"wp_wear_action": "您已成功更改磨损",
 	
 	"None": "无"
 }

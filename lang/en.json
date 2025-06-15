@@ -25,6 +25,7 @@
 	"wp_skin_menu_select": "You have chosen {lime}{0}{default} as your skin",
 
 	"wp_stattrak_action": "You have successfully changed the stattrak setting",
+	"wp_nametag_action": "You have successfully changed the nametag setting",
 	
 	"None": "None"
 }

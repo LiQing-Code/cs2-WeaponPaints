@@ -47,6 +47,15 @@ namespace WeaponPaints
 		[JsonPropertyName("CommandStattrak")]
 		public List<string> CommandStattrak { get; set; } = ["stattrak", "st"];
 
+		[JsonPropertyName("CommandNameTag")]
+		public List<string> CommandNameTag { get; set; } = ["name"];
+
+		[JsonPropertyName("CommandSeed")]
+		public List<string> CommandSeed { get; set; } = ["seed"];
+
+		[JsonPropertyName("CommandWear")]
+		public List<string> CommandWear { get; set; } = ["wear"];
+
 		[JsonPropertyName("CommandSkin")]
 		public List<string> CommandSkin { get; set; } = ["ws"];
 
