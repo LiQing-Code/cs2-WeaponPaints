@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
+using Microsoft.Extensions.Logging;
 
 namespace WeaponPaints
 {
@@ -13,7 +14,7 @@ namespace WeaponPaints
 		
 		[GameEventHandler]
 		public HookResult OnClientFullConnect(EventPlayerConnectFull @event, GameEventInfo info)
-		{
+     	{
 			CCSPlayerController? player = @event.Userid;
 
 			if (player is null || !player.IsValid || player.IsBot ||
@@ -58,6 +59,8 @@ namespace WeaponPaints
 			catch
 			{
 			}
+			
+			Players.Add(player);
 
 			return HookResult.Continue;
 		}
@@ -113,6 +116,7 @@ namespace WeaponPaints
 			
 			_temporaryPlayerWeaponWear.TryRemove(player.Slot, out _);
 			CommandsCooldown.Remove(player.Slot);
+			Players.Remove(player);
 
 			return HookResult.Continue;
 		}
@@ -142,7 +146,10 @@ namespace WeaponPaints
 
 			GivePlayerMusicKit(player);
 			GivePlayerAgent(player);
-			GivePlayerGloves(player);
+			Server.NextFrame(() =>
+			{
+				GivePlayerGloves(player);
+			});
 			GivePlayerPin(player);
 
 			return HookResult.Continue;
@@ -219,7 +226,7 @@ namespace WeaponPaints
 
 			if (designerName.Contains("weapon"))
 			{
-				Server.NextFrame(() =>
+				Server.NextWorldUpdate(() =>
 				{
 					var weapon = new CBasePlayerWeapon(entity.Handle);
 					if (!weapon.IsValid) return;
@@ -235,7 +242,7 @@ namespace WeaponPaints
 
 						if (steamid != null && steamid.IsValid())
 						{
-							player = Utilities.GetPlayers().FirstOrDefault(p => p.IsValid && p.SteamID == steamid.SteamId64);
+							player = Players.FirstOrDefault(p => p.IsValid && p.SteamID == steamid.SteamId64);
 
 							if (player == null)
 								player = Utilities.GetPlayerFromSteamId(weapon.OriginalOwnerXuidLow);
@@ -248,7 +255,7 @@ namespace WeaponPaints
 
 						if (string.IsNullOrEmpty(player?.PlayerName)) return;
 						if (!Utility.IsPlayerValid(player)) return;
-
+						
 						GivePlayerWeaponSkin(player, weapon);
 					}
 					catch (Exception)
@@ -262,11 +269,7 @@ namespace WeaponPaints
 		{
 			if (!Config.Additional.ShowSkinImage) return;
 
-			foreach (var player in Utilities.GetPlayers().Where(p =>
-							p is { IsValid: true, PlayerPawn.IsValid: true, IsBot: false } and
-								{ Connected: PlayerConnectedState.PlayerConnected }
-							)
-				)
+			foreach (var player in Players)
 			{
 				if (_playerWeaponImage.TryGetValue(player.Slot, out var value) && !string.IsNullOrEmpty(value))
 				{
@@ -282,7 +285,7 @@ namespace WeaponPaints
 			var player = @event.Userid;
 			if (player == null || !player.IsValid || player.IsBot) return HookResult.Continue;
 			if (!@event.Item.Contains("knife")) return HookResult.Continue;
-
+		
 			var weaponDefIndex = (int)@event.Defindex;
 				
 			if (!HasChangedKnife(player, out var _) || !HasChangedPaint(player, weaponDefIndex, out var _))
@@ -292,7 +295,7 @@ namespace WeaponPaints
 			{
 				GiveOnItemPickup(player);
 			}
-
+		
 			return HookResult.Continue;
 		}
 
@@ -337,7 +340,7 @@ namespace WeaponPaints
 			RegisterEventHandler<EventRoundStart>(OnRoundStart);
 			RegisterEventHandler<EventRoundEnd>(OnRoundEnd);
 			RegisterEventHandler<EventRoundMvp>(OnRoundMvp);
-			RegisterListener<Listeners.OnEntityCreated>(OnEntityCreated);
+			RegisterListener<Listeners.OnEntitySpawned>(OnEntityCreated);
 			RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath);
 
 			if (Config.Additional.ShowSkinImage)
