@@ -484,14 +484,6 @@ internal class WeaponSynchronization
 					var seed = weaponInfo.Seed;
 					var nametag = weaponInfo.Nametag;
 
-					// Prepare the queries to check and update/insert weapon skin data
-					const string queryCheckExistence = "SELECT COUNT(*) FROM `wp_player_skins` WHERE `steamid` = @steamid AND `weapon_defindex` = @weaponDefIndex AND `weapon_team` = @weaponTeam";
-
-					var existingRecordCount = await connection.ExecuteScalarAsync<int>(
-						queryCheckExistence,
-						new { steamid = player.SteamId, weaponDefIndex, weaponTeam = teamId }
-					);
-
 					string query = @"
 INSERT INTO `wp_player_skins` 
 (`steamid`, `weapon_defindex`, `weapon_team`, `weapon_paint_id`, `weapon_wear`, `weapon_seed`, `weapon_nametag`)
